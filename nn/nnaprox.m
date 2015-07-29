@@ -1,9 +1,5 @@
-function [net, bX3, performance] = nnaprox(inputs, innerLayerSize, targets)
-
-alpha = 0.0005;
-beta = 0.2;
-gamma = 0.05;
-
+function [net, performance, bE0, bE1, bE2] = nnaprox(inputs, innerLayerSize, targets, v0, v1, v2)
+% Neural networ function for approximation NIR bands from VIS bands.
 % inputs have size n x input dimensionality
 % targets have size n x output dimensionality
 % inner layer is array of two numbers, first layer computes features,
@@ -25,10 +21,10 @@ m3 = zeros(size(w3));
 best = Inf;
 counter = 0;
 i=0;
-while(true)
+alpha = 1/2000;
+beta = 0.5;
+while(i<5*10^3)
     i = i+1;    
-    gamma = 0.01 + 0.02 * i^(1/4);
-    delta = 0.01 + 0.02 * i^(1/4);
 
     % computation of performance
     X2 = horzcat(s(X1 * w1), ones(size(inputs, 1), 1));
@@ -40,38 +36,44 @@ while(true)
     % only {0,1} values in pigment layer
     E1 = X3 .* (ones(size(X3)) - X3);
     % only one {1} output value in pigment layer
-    E2 = 1/2*(sum(X3, 2) - 1).^2;
-    
+    E2 = abs(1/2*(sum(X3.^2, 2) - 1));
+    % each neuron is significant
+    %E3 = 1/2 * sum((1 - max(X3, [], 1) + min(X3, [], 1)).^2);
+   
     % composition of performance
-    performance = sum(sum(E0, 2) + gamma * sum(E1, 2) + delta * E2);
-    if (performance < best)
-        if (best - performance < best/100000)
+    performance = v0 * sum(sum(E0, 2)) + v1 * sum(sum(E1, 2)) + v2 * sum(E2);
+    
+    if mod(i, 25) == 0
+    	disp(['Iters: ', num2str(i), ' Performance:', num2str(performance), ' E0: ', num2str(sum(sum(E0))), ' E1: ', num2str(sum(sum(E1))), ' E2: ', num2str(sum(sum(E2)))]);
+    end
+
+    if (performance <= best)
+        if (best - performance < best/10^7)
             counter = counter + 1;
         else
             counter = 0;
         end
         if counter > 100
             warning('step too small');
-            break;
+            %break;
         end
-        best = performance
+        best = performance;
         bw1 = w1;
         bw2 = w2;
         bw3 = w3;
         bX3 = X3;
+	bE0 = E0;
+	bE1 = E1;
+	bE2 = E2;
         grows = 0;
     else
         grows = grows + 1;
-        if grows > 12
-            break;
+        if grows > 100
+            %break;
         end
-        if grows >= 6
-            alpha = alpha/10;
-            m1 = zeros(size(w1));
-            m2 = zeros(size(w2));
-            m3 = zeros(size(w3));
-            warning(['grows: ' int2str(grows)]);
-        end
+        m1 = zeros(size(w1));
+        m2 = zeros(size(w2));
+        m3 = zeros(size(w3));     
     end
     
     % adaptation step
@@ -80,8 +82,17 @@ while(true)
     % classificator layer
     E0d2 = d3 * w3';
     E1d2 = (ones(size(X3)) - 2 * X3);
-    E2d2 = sum(X3,2) * ones(1,innerLayerSize(2)) - 1;
-    d2 = (E0d2 + gamma * E1d2 + delta * E2d2) .* X3 .* (ones(size(X3)) - X3);
+    if (E2 < 0)
+    	E2d2 = -X3;
+    else
+    	if (E2 == 0)
+		E2d2 = 0;
+	else
+		E2d2 = X3;
+	end
+    end
+    %E3d2 = ones(size(inputs, 1), 1) * (1 - max(X3, [], 1) + min(X3, [], 1));
+    d2 = (v0 * E0d2 + v1 * E1d2 + v2 * E2d2) .* X3 .* (ones(size(X3)) - X3);
     dw2 = (d2' * X2)';
     % feature set
     d1 = (d2 * w2') .* X2 .* (ones(size(X2)) - X2);

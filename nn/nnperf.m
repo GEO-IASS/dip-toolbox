@@ -1,4 +1,4 @@
-function [performance, X3, X4] = nnperf(W, layers, inputs, targets)
+function [performance, X3, X4] = nnperf(W, layers, inputs, targets, v0, v1, v2)
 
 w1len = (size(inputs, 2) + 1) * layers(1);
 w1 = reshape(W(1:w1len), size(inputs, 2) + 1, layers(1));
@@ -17,8 +17,8 @@ E0 = 1/2 * (X4 - targets).^2;
 % only {0,1} values in pigment layer
 E1 = X3 .* (ones(size(X3)) - X3);
 % only one {1} output value in pigment layer
-E2 = 1/2*(sum(X3, 2) - 1).^2;
+E2 = abs(1/2*(sum(X3.^2, 2) - 1));
 
-performance = sum(sum(E0, 2) + sum(E1, 2) + 100*E2);
+performance = v0 * sum(sum(E0)) + v1 * sum(sum(E1)) + v2 * sum(E2);
 
 end

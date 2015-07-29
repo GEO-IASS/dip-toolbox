@@ -1,4 +1,4 @@
-function net = buildNet(W, layers, in, out)
+function net = buildNet(W, layers)
 
 w1len = (layers(1) + 1) * layers(2);
 net{1} = reshape(W(1:w1len), layers(1) + 1, layers(2));
