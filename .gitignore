@@ -1,2 +1,4 @@
 # ignore datasets
 *.mat
+# apple specific
+.DS_Store
