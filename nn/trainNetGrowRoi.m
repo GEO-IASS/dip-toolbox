@@ -20,6 +20,7 @@ outs = trainLin(subset, 17:bands);
 net = feedforwardnet(layers, 'trainscg');
 net = configure(net, 'inputs', ins');
 net = configure(net, 'outputs', outs');
+net.trainParam.epochs = 10000;
 net = train(net, ins', outs', 'useParallel', 'yes');
 
 roiImg = allBandsImg(roi(1):roi(2), roi(3):roi(4), :);
@@ -34,7 +35,7 @@ imwrite(preview(:,:,6), filename);
 
 filename = ['leonardoDiff-', num2str(trainingSetSize), '-', num2str(layers(1)), 'x', num2str(layers(2)), '-', num2str(imgSize), '.png'];
 diff = roiImg(:,:,22) - preview(:,:,6);
-imwrite(rescaleRange(diff,0.02),filename);
+%imwrite(rescaleRange(diff,0.02),filename);
 
 p = sum(sum(diff.^2));
 

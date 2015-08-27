@@ -17,7 +17,8 @@ outs = allBandsImgLin(subset, 17:bands);
 net = feedforwardnet(layers, 'trainscg');
 net = configure(net, 'inputs', ins');
 net = configure(net, 'outputs', outs');
-net = train(net, ins', outs');
+net.trainParam.epochs = 10000;
+net = train(net, ins', outs', 'useParallel', 'yes', 'useGPU', 'yes');
 
 roiLin = reshape(allBandsImg(roi(1):roi(2), roi(3):roi(4), 1:16), (roi(2) - roi(1) + 1) * (roi(4) - roi(3) + 1), 16);
 out = net(roiLin');
@@ -26,6 +27,10 @@ preview = reshape(out', roi(2) - roi(1) + 1, roi(4) - roi(3) + 1, bands - 16);
 
 filename = ['leonardoPreview-', num2str(trainingSetSize), '-', num2str(layers(1)), 'x', num2str(layers(2)), '.png'];
 
-imwrite(preview(:,:,10), filename);
+imwrite(preview(:,:,6), filename);
+
+filename = ['leonardoDiff-', num2str(trainingSetSize), '-', num2str(layers(1)), 'x', num2str(layers(2)), '.png'];
+
+imwrite(allBandsImg(roi(2)-roi(1), roi(4)-roi(3),22)-preview(:,:,6),filename);
 
 end

@@ -1,4 +1,6 @@
 # ignore datasets
 *.mat
+# ignore output images
+.png 
 # apple specific
 .DS_Store
