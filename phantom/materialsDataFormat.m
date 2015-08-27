@@ -1,3 +1,6 @@
+% Script computes material statistics from white canvas with pigment
+% samples (input is stored in bile-platno-allChannels.mat)
+
 means = zeros(60,32);
 vars = zeros(60,32);
 

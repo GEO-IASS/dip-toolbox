@@ -1,4 +1,11 @@
 function phantom = createPhantom(pattern, materials)
+% createPhantom(pattern, materials) creates "multimodal dataset" simulating
+% materials on specified pattern. Method creates 32 modalities (according
+% to firenze scanner) which correspond to materials behavior.
+
+% Expected is pattern - matrix with indices of used material for each
+% position and materials 3D matrix [material, modality, moment]. Moments
+% stored here are two - mean value and variance
 
     phantom = {};
     width = size(pattern, 1);

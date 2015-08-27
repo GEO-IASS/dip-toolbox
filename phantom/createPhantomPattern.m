@@ -1,9 +1,16 @@
 function phantomPattern = createPhantomPattern(segmentRows, maxWidth, materialsCount, underdrawingsCoverage)
 % createPhantomPattern creates 2D matrix where each pixel contains id of
-% layer sandwich.
+% material. This function creates horizontal stripes. Each stripe
+% represents one used material. On the right side (according to specified
+% underdrawingCoverage) simulation of sandwich with underdrawings is
+% created.
 
+% estimation of optimal pattern size (according to maxWidth and
+% underdrawingsCoverage)
 underdrawingCols = floor(maxWidth * underdrawingsCoverage);
 cols = int16(underdrawingCols / underdrawingsCoverage);
+
+% allocate output pattern
 phantomPattern = zeros(segmentRows * materialsCount, cols);
 
 row = 1;
