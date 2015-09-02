@@ -1,5 +1,5 @@
 function phantomPattern = createPhantomPattern(segmentRows, maxWidth, materialsCount, underdrawingsCoverage)
-% createPhantomPattern creates 2D matrix where each pixel contains id of
+% createPhantomPattern(segmentRows, maxWidth, materialsCount, underdrawingsCoverage) creates 2D matrix where each pixel contains id of
 % material. This function creates horizontal stripes. Each stripe
 % represents one used material. On the right side (according to specified
 % underdrawingCoverage) simulation of sandwich with underdrawings is
