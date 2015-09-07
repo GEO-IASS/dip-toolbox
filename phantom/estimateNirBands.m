@@ -1,9 +1,8 @@
 function [err, net] = estimateNirBands(dataset, nnLayers)
 % estimateNirBands(dataset, nnLayers) creates neural network which 
 % estimates from first 16 dimensions of dataset.work(:,:,1:16) next 16 
-% dimensions of dataset.work(:,:,17:32). As a result we obtain MSE from 
-% real values, traned neural network and computed estimation error on 
-% dataset.clean
+% dimensions of dataset.work(:,:,17:32). As a result we obtain computed estimation error on 
+% dataset.clean, trained neural network and 
 
 height = size(dataset.work,1);
 width = size(dataset.work,2);
@@ -14,7 +13,7 @@ net = feedforwardnet(nnLayers, 'trainscg');
 net = configure(net, 'inputs', ins');
 net = configure(net, 'outputs', outs');
 net.trainParam.epochs = 1000;
-net = train(net, ins', outs', 'useParallel', 'yes');
+net = train(net, ins', outs', 'useGPU', 'yes');
 
 oneLayer = reshape(dataset.clean(1:height/12:height, 1, 1:16), 12, 16);
 twoLayers = reshape(dataset.clean(1:height/12:height, width, 1:16), 12, 16);
