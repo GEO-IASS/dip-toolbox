@@ -7,7 +7,7 @@ cd '/storage/ostrava1/home/gimli/dip-toolbox/phantom';
 
 phantomName = ['phantom-m', num2str(M), '-', num2str(phantomID)];
 load(phantomName);
-load(layersStore);
+load('layersStore');
 
 [err, net] = estimateNirBands(phantom, layers{layersID}); 
 
