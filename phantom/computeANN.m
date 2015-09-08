@@ -9,11 +9,11 @@ phantomName = ['phantom-m', num2str(M), '-', num2str(phantomID)];
 load(phantomName);
 load('layersStore');
 
-[err, net] = estimateNirBands(phantom(phantomID), layers{layersID}); 
+[err, net, perf] = estimateNirBands(phantom, layers{layersID}); 
 
 filename = ['output-P', num2str(phantomID), '-M', num2str(M), '-L', num2str(layersID)];
 
-save(filename, 'err', 'net');
+save(filename, 'err', 'net', 'perf');
 
 end
 
