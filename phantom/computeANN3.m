@@ -16,14 +16,14 @@ trainSetSize = min(height*width, 10^5);
 
 [net, perf] = trainANN(data.phantom.work, layers{layersID}, trainSetSize); 
 
-oneLayer = reshape(data.phantom.clean(1:height/12:height, 1, 1:16), 12, 16);
-twoLayers = reshape(data.phantom.clean(1:height/12:height, width, 1:16), 12, 16);
+oneLayer = reshape(data.phantom.clean(1:height, 1, 1:16), height, 16);
+twoLayers = reshape(data.phantom.clean(1:height, width, 1:16), height, 16);
 
 oneLayerNir = net(oneLayer')';
 twoLayersNir = net(twoLayers')';
 
-err.oneLayer = (oneLayerNir - reshape(data.phantom.clean(1:height/12:height, 1, 17:32), 12, 16)).^2;
-err.twoLayers = (twoLayersNir - reshape(data.phantom.clean(1:height/12:height, width, 17:32), 12, 16)).^2;
+err.oneLayer = (oneLayerNir - reshape(data.phantom.clean(1:height, 1, 17:32), height, 16)).^2;
+err.twoLayers = (twoLayersNir - reshape(data.phantom.clean(1:height, width, 17:32), height, 16)).^2;
 
 filename = ['materials-out-M', num2str(M), '-L', num2str(layersID), '-c', num2str(fileID)];
 
