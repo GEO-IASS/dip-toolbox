@@ -1,4 +1,4 @@
-function computeANN3( M, layersID, fileID )
+function computeANN4( M, layersID, fileID )
 % computeANN(phantomID, M, layersID,fileID) - function for cesnet computing. 
 % Function takes one phantom from directory and train one FF-ANN. Results 
 % (error vectors and network itself) stores into ouput file.
