@@ -29,7 +29,7 @@ twoLayersNir = net(twoLayers')';
 err.oneLayer = (oneLayerNir - reshape(phantom.clean(1:height, 1, 17:32), height, 16)).^2;
 err.twoLayers = (twoLayersNir - reshape(phantom.clean(1:height, width, 17:32), height, 16)).^2;
 
-filename = ['materials-out-M', num2str(M), '-L', num2str(layersID), '-c', num2str(fileID)];
+filename = ['materials-rnd-M', num2str(M), '-L', num2str(layersID), '-c', num2str(fileID)];
 
 save(filename, 'err', 'net', 'perf', 'mStatPerm');
 
