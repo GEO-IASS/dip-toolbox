@@ -31,7 +31,7 @@ err.twoLayers = (twoLayersNir - reshape(phantom.clean(1:height, width, 17:32), h
 
 filename = ['materials-rnd-M', num2str(M), '-L', num2str(layersID), '-c', num2str(fileID)];
 
-save(filename, 'err', 'net', 'perf', 'mStatPerm');
+save(filename, 'err', 'net', 'perf', 'mStatsPerm');
 
 end
 
