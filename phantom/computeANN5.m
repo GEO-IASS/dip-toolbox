@@ -12,7 +12,7 @@ mStatsPerm(1:120,:,:) = mStats(permutation, :, :); % mStats is loaded from mater
 mStatsPerm(121:240,:,:) = mStats(120+permutation, :, :);
 phantom = createPhantom(pattern, mStatsPerm);
 
-nnLayers = ones(layers, 1) * 50;
+nnLayers = ones(1, layers) * 50;
 
 height = size(phantom.clean,1);
 width = size(phantom.clean,2);
