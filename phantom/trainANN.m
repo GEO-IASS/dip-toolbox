@@ -1,5 +1,5 @@
 function [net, perf] = trainANN(dataset, nnLayers, trainSetSize)
-% estimateNirBands(dataset, nnLayers) creates neural network which 
+% trainANN(dataset, nnLayers, trainSetSize) - estimateNirBands(dataset, nnLayers) creates neural network which 
 % estimates from first 16 dimensions of dataset.work(:,:,1:16) next 16 
 % dimensions of dataset.work(:,:,17:32). As a result we obtain computed estimation error on 
 % dataset.clean, trained neural network and 
