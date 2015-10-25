@@ -23,7 +23,7 @@ output = outs(subset, :);
 net = feedforwardnet(nnLayers, 'trainscg');
 net = configure(net, 'inputs', input');
 net = configure(net, 'outputs', output');
-net.trainParam.epochs = 1000;
+net.trainParam.epochs = 10000;
 [net, perf] = train(net, input', output', 'useGPU', 'only','showResources', 'yes');
 
 end
