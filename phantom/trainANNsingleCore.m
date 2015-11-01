@@ -22,8 +22,7 @@ output = outs(subset, :);
 
 while 1
     [tf msg] = license('checkout','Neural_Network_Toolbox');
-    [tf2 msg2] = license('checkout','Parallel_Computing_Toolbox');
-    if tf==1 && tf2 == 1, break, end
+    if tf==1, break, end
     display(strcat(datestr(now),' waiting for licence '));
     pause(1);
 end
@@ -32,6 +31,6 @@ net = feedforwardnet(nnLayers, 'trainscg');
 net = configure(net, 'inputs', input');
 net = configure(net, 'outputs', output');
 net.trainParam.epochs = 10000;
-[net, perf] = train(net, input', output', 'useGPU', 'only','showResources', 'yes');
+[net, perf] = train(net, input', output');
 
 end
