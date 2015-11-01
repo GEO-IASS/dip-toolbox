@@ -4,6 +4,7 @@ function computeANN5( M, layers, fileID )
 % (error vectors and network itself) stores into ouput file.
 
 cd '/storage/ostrava1/home/gimli/dip-toolbox/phantom';
+rng('shuffle');
 
 load('materials-firenze.mat');
 pattern = createPhantomPattern(int16(500/M), 500, M, 120, 0.02);

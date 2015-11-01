@@ -1,6 +1,7 @@
 function annDepthMaterials()
 
     cd '/storage/ostrava1/home/gimli/dip-toolbox/phantom';
+    rng('shuffle');
 
     for materials=10:10:110
         for layers=1:9
