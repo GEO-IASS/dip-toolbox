@@ -8,7 +8,7 @@ function annBehaviorCoverage()
                     display('File already exist, skipping: ', filename);
                 else
 		    display('Computing: ', filename);
-                    computeANN7singleCore(coverage, layerId, fileId);
+                    computeANN7(coverage, layerId, fileId);
                 end
             end
         end

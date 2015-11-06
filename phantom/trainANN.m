@@ -20,13 +20,16 @@ output = outs(subset, :);
 %gpuInput = nndata2gpu(input');
 %gpuOutput = nndata2gpu(output');
 
+display(strcat(datestr(now),' waiting for licence '));
+
 while 1
     [tf msg] = license('checkout','Neural_Network_Toolbox');
     [tf2 msg2] = license('checkout','Parallel_Computing_Toolbox');
     if tf==1 && tf2 == 1, break, end
-    display(strcat(datestr(now),' waiting for licence '));
     pause(1);
 end
+
+display('License reached, going to compute in parallel');
 
 net = feedforwardnet(nnLayers, 'trainscg');
 net = configure(net, 'inputs', input');
