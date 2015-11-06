@@ -4,8 +4,6 @@ function computeANN7( coverage, layerID, fileID )
 % underdrawing can vary. New phantom with specified coverage is generated
 % from ALMA-materials.
 
-cd '/storage/ostrava1/home/gimli/dip-toolbox/phantom';
-
 load('alma-materials.mat');
 pattern = createPhantomPattern(40, 500, 12, 12, double(coverage)/100);
 phantom = createPhantom(pattern, materials);
