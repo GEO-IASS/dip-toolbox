@@ -1,7 +1,5 @@
 function annBehaviorCoverage()
 
-    cd '/storage/ostrava1/home/gimli/dip-toolbox/phantom';
-
     for coverage=1:2:39
         for layerId=1:20
             for fileId=1:25
@@ -9,6 +7,7 @@ function annBehaviorCoverage()
                 if (exist(filename,'file') == 2)
                     display('File already exist, skipping: ', filename);
                 else
+		    display('Computing: ', filename);
                     computeANN7(coverage, layerId, fileId);
                 end
             end
