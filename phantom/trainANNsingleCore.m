@@ -1,5 +1,5 @@
 function [net, perf] = trainANN(dataset, nnLayers, trainSetSize)
-% trainANN(dataset, nnLayers, trainSetSize) - estimateNirBands(dataset, nnLayers) creates neural network which 
+% estimateNirBands(dataset, nnLayers) creates neural network which 
 % estimates from first 16 dimensions of dataset.work(:,:,1:16) next 16 
 % dimensions of dataset.work(:,:,17:32). As a result we obtain computed estimation error on 
 % dataset.clean, trained neural network and 
@@ -22,8 +22,7 @@ output = outs(subset, :);
 
 while 1
     [tf msg] = license('checkout','Neural_Network_Toolbox');
-    [tf2 msg2] = license('checkout','Parallel_Computing_Toolbox');
-    if tf==1 && tf2 == 1, break, end
+    if tf==1, break, end
     display(strcat(datestr(now),' waiting for licence '));
     pause(1);
 end
@@ -32,6 +31,6 @@ net = feedforwardnet(nnLayers, 'trainscg');
 net = configure(net, 'inputs', input');
 net = configure(net, 'outputs', output');
 net.trainParam.epochs = 10000;
-[net, perf] = train(net, input', output', 'useGPU', 'only','showResources', 'yes');
+[net, perf] = train(net, input', output');
 
 end

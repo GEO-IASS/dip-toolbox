@@ -13,7 +13,7 @@ width = size(phantom.clean,2);
 
 trainSetSize = min(height*width, 10^5);
 
-[net, perf] = trainANN(phantom.work, nnLayers, trainSetSize); 
+[net, perf] = trainANNsingleCore(phantom.work, nnLayers, trainSetSize); 
 
 oneLayer = reshape(phantom.clean(1:height, 1, 1:16), height, 16);
 twoLayers = reshape(phantom.clean(1:height, width, 1:16), height, 16);
@@ -24,7 +24,7 @@ twoLayersNir = net(twoLayers')';
 err.oneLayer = (oneLayerNir - reshape(phantom.clean(1:height, 1, 17:32), height, 16)).^2;
 err.twoLayers = (twoLayersNir - reshape(phantom.clean(1:height, width, 17:32), height, 16)).^2;
 
-filename = ['separeRGB-l', num2str(layers), '-c', num2str(fileID)];
+filename = ['separeRGB-l', num2str(nnSize), '-c', num2str(fileID)];
 
 save(filename, 'err', 'net', 'perf');
 
