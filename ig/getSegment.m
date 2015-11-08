@@ -1,14 +1,14 @@
 function [segment, wx, wy] = getSegment(x, y, areaSize)
-% [column, row, weightX, weightY] = getSegment(x, y, areaSize) for position x, y 
+% [segment, weightX, weightY] = getSegment(x, y, areaSize) for position x, y 
 % in image determine coordinates in sense of areaSize and weight of left
 % topcolumn. This method is supporting and without other methods does not
 % have sense.
 
-    xx = (x + areaSize/2) / areaSize + 1;
+    xx = ceil(x / areaSize);
     column = floor(xx);
     wx = xx - column;
     
-    yy = (y + areaSize/2) / areaSize + 1;
+    yy = ceil(y / areaSize);
     row = floor(yy);
     wy = yy - row;
     

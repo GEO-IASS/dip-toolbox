@@ -3,8 +3,8 @@ function [net, tr] = trainAndProcess(imageVis, imageTarget)
 % creates estimation of target image. As a result returns enhanced
 % information gain of imageTarget
 
-TRAINING_SET_SIZE = 5000;
-LAYERS = [5, 1];
+TRAINING_SET_SIZE = 500;
+LAYERS = [1, 1];
 
 % convert input images into pixel vector useful for training
 inputs = reshape(double(imageVis), size(imageVis, 1) * size(imageVis, 2), size(imageVis,3));

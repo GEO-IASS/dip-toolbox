@@ -11,7 +11,7 @@ ys = -areaSize/2:areaSize:height;
 
 anns = cell(size(xs,1), size(ys,1));
 
-display(['We need ', num2str(size(xs,2) * size(ys,2)), ' of networks.']);
+display([num2str(size(xs,2) * size(ys,2)), ' networks will be trained.']);
 
 i = 1;
 col = 1;
