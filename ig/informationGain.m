@@ -11,7 +11,7 @@ width = size(visible,1);
 height = size(visible , 2);
 
 map = createMap(width, height, areaSize);
-[x, y] = meshgrid(1:width, 1:height);
+[x, y] = meshgrid(1:height, 1:width);
 [seg, wx, wy] = getSegment(x, y, areaSize);
 
 toProcess = reshape(double(visible), width * height, size(visible,3))';
