@@ -4,13 +4,13 @@ function [segment, wx, wy] = getSegment(x, y, areaSize)
 % topcolumn. This method is supporting and without other methods does not
 % have sense.
 
-    xx = ceil(x / areaSize);
-    column = floor(xx);
-    wx = xx - column;
+    xx = double(x) / areaSize;
+    column = ceil(xx);
+    wx = xx - column + 1;
     
-    yy = ceil(y / areaSize);
-    row = floor(yy);
-    wy = yy - row;
+    yy = double(y) / areaSize;
+    row = ceil(yy);
+    wy = yy - row + 1;
     
     segment = [reshape(column, size(x,1) * size(x,2), 1)'; reshape(row, size(x,1) * size(x,2), 1)']';
     

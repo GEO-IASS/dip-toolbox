@@ -22,6 +22,6 @@ net = configure(net, 'outputs', outs);
 net.trainParam.epochs = 10000;
 [net, tr] = train(net, ins, outs);%, 'useParallel', 'yes', 'useGPU', 'yes');
 
-%gain = double(imageTarget) - reshape(net(inputs')', size(imageTarget, 1), size(imageTarget, 2), size(imageTarget,3));
+gain = double(imageTarget) - reshape(net(inputs')', size(imageTarget, 1), size(imageTarget, 2), size(imageTarget,3));
 
 end
