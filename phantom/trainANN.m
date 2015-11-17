@@ -22,7 +22,7 @@ output = outs(subset, :);
 
 while 1
     [tf msg] = license('checkout','Neural_Network_Toolbox');
-    [tf2 msg2] = license('checkout','Parallel_Computing_Toolbox');
+    [tf2 msg2] = license('checkout','Distrib_Computing_Toolbox');
     if tf==1 && tf2 == 1, break, end
     display(strcat(datestr(now),' waiting for licence '));
     pause(1);
