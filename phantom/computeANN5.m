@@ -3,9 +3,6 @@ function computeANN5( M, layers, fileID )
 % Function takes one phantom from directory and train one FF-ANN. Results 
 % (error vectors and network itself) stores into ouput file.
 
-cd '/storage/ostrava1/home/gimli/dip-toolbox/phantom';
-rng('shuffle');
-
 load('materials-firenze.mat');
 pattern = createPhantomPattern(int16(500/M), 500, M, 120, 0.02);
 permutation = randperm(120);
@@ -13,7 +10,7 @@ mStatsPerm(1:120,:,:) = mStats(permutation, :, :); % mStats is loaded from mater
 mStatsPerm(121:240,:,:) = mStats(120+permutation, :, :);
 phantom = createPhantom(pattern, mStatsPerm);
 
-nnLayers = ones(1, layers) * 50;
+nnLayers = ones(1, layers) * 20;
 
 height = size(phantom.clean,1);
 width = size(phantom.clean,2);
