@@ -6,16 +6,16 @@ function map = createMap(width, height, areaSize)
 cols = ceil(width/areaSize);
 rows = ceil(height/areaSize);
 
-map = zeros(cols, rows, 4); % necessary to add left and right border
+map = zeros(rows, cols, 4); % necessary to add left and right border
 
-coords = [1, 2, 1 + cols, 2 + cols];
-for row=1:rows
-    for column=1:cols;
-        map(column, row, :) = coords;
+coords = [1, 2, 2 + cols, 3 + cols];
+for row=1:rows    
+    for column=1:cols;    
+        map(row, column, :) = coords;
         coords([1,3]) = coords([2,4]);
         coords([2,4]) = coords([2,4]) + 1;
     end
-    coords = [coords(2) - 1, coords(2), coords(4) - 1, coords(4)];
+    coords = [coords(2), coords(2) + 1, coords(4), coords(4) + 1];
 end
 
 if (width - ceil((width - areaSize/2) / areaSize) * areaSize > 0)

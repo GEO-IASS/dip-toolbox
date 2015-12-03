@@ -9,14 +9,14 @@ function [errorClean, errorPent] = resultLoadErrorMaterialsCountDeep(path)
 % Missing files are reported as warning message.
 
     if nargin < 1
-        path = '/home/gimli/tmp/materialsVsLayers/';
+        path = '/home/gimli/akumulator2/pgs/matlab/difference_measure/depth/';
     end
 
-    errorClean = zeros(11,8,20,16);
-    errorPent = zeros(11,8,20,16);
+    errorClean = zeros(12,9,20,16);
+    errorPent = zeros(12,8,20,16);
     
     for m=10:10:120
-        for l=2:9
+        for l=1:9
             for c=1:20
                 filename = [path, 'materials-rnd-M', num2str(m), '-layers', num2str(l), '-c', num2str(c), '.mat'];
                 if ~exist(filename, 'file')
@@ -25,8 +25,8 @@ function [errorClean, errorPent] = resultLoadErrorMaterialsCountDeep(path)
                 end
                 load(filename, 'err');
                 
-                errorClean(m/10, l-1, c, :) = reshape(mean(err.oneLayer,1) / 20, 1,1,1,16);
-                errorPent(m/10, l-1, c, :) = reshape(mean(err.twoLayers) / 20,1,1,1,16);                
+                errorClean(m/10, l, c, :) = reshape(mean(err.oneLayer,1) / 20, 1,1,1,16);
+                errorPent(m/10, l, c, :) = reshape(mean(err.twoLayers) / 20,1,1,1,16);                
             end
         end
     end

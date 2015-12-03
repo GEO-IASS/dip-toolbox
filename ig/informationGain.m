@@ -59,13 +59,13 @@ display('Computing approximation of target');
 % processing of pixels - computation of approximation
 for netId = 1:size(nets,1);
     ind = find(q1 == netId);
-    q(ind, :, 1) = nets{netId}.net(toProcess(:, ind))';
+    q(ind, :, 1) = nets{netId}.net(toProcess(:, ind), 'useGPU', 'yes')';
     ind = find(q2 == netId);
-    q(ind, :, 2) = nets{netId}.net(toProcess(:, ind))';
+    q(ind, :, 2) = nets{netId}.net(toProcess(:, ind), 'useGPU', 'yes')';
     ind = find(q3 == netId);
-    q(ind, :, 3) = nets{netId}.net(toProcess(:, ind))';
+    q(ind, :, 3) = nets{netId}.net(toProcess(:, ind), 'useGPU', 'yes')';
     ind = find(q4 == netId);
-    q(ind, :, 4) = nets{netId}.net(toProcess(:, ind))';
+    q(ind, :, 4) = nets{netId}.net(toProcess(:, ind), 'useGPU', 'yes')';
 end        
 
 display('Final bilinear interpolation');
@@ -73,12 +73,27 @@ display('Final bilinear interpolation');
 wx = reshape(wx, width*height, 1) * ones(1,size(target,3));
 wy = reshape(wy, width*height, 1) * ones(1,size(target,3));
 
-targetApprox =  q(:,:,1) .* (1 - wx) .* (1 - wy) ...
-            + q(:,:,2) .* wx .* (1 - wy) ...
-            + q(:,:,3) .* (1 - wx) .* wy ...
-            + q(:,:,4) .* wx .* wy;               
+try 
+    gpuDevice(1);
 
-targetApprox = reshape(targetApprox, height, width, size(target,3));
-igScaled = rescaleRange(abs(target - targetApprox));
+    wxGpu = gpuArray(wx);
+    wyGpu = gpuArray(wy);
+
+    qGpu = gpuArray(q);
+
+    igScaled =  qGpu(:,:,1) .* (1 - wxGpu) .* (1 - wyGpu) ...
+                + qGpu(:,:,2) .* wxGpu .* (1 - wyGpu) ...
+                + qGpu(:,:,3) .* (1 - wxGpu) .* wyGpu ...
+                + qGpu(:,:,4) .* wxGpu .* wyGpu;            
+catch
+    display('GPU device problem. Computing on CPU ...');
+                
+    igScaled =  q(:,:,1) .* (1 - wx) .* (1 - wy) ...
+                + q(:,:,2) .* wx .* (1 - wy) ...
+                + q(:,:,3) .* (1 - wx) .* wy ...
+                + q(:,:,4) .* wx .* wy;                
+end
+        
+igScaled = reshape(igScaled, height, width, size(target,3));        
 
 end
