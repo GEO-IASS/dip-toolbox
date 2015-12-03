@@ -26,6 +26,4 @@ if height - ceil((height - areaSize/2) / areaSize) * areaSize > 0
     map(:, rows, [3, 4]) = 0;
 end
 
-%map = reshape(map, cols * rows, 4);
-
 end

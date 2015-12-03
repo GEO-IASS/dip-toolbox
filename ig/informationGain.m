@@ -15,11 +15,11 @@ if (nargin == 2)
 end
 
 % network preparation
-nets = trainNetworks(areaSize, visible, target);
+nets = trainNetworks(visible, target, areaSize);
 nets = reshape(nets, size(nets, 1) * size(nets,2), 1);
 
-width = size(visible,1);
-height = size(visible , 2);
+width = size(visible, 2);
+height = size(visible, 1);
 
 % map describes how ANN are distributed over image. Map looks like:
 %   1, 2, 0
@@ -28,7 +28,7 @@ height = size(visible , 2);
 % where zeros fill non complete squares on an image border
 map = createMap(width, height, areaSize);
 % pixel coordinates in two arrays
-[x, y] = meshgrid(1:height, 1:width);
+[x, y] = meshgrid(1:width, 1:height);
 % inices of neural networks used for approximation and weighting vectors
 % for bilinear interpolation
 [seg, wx, wy] = getSegment(x, y, areaSize);
@@ -78,7 +78,7 @@ targetApprox =  q(:,:,1) .* (1 - wx) .* (1 - wy) ...
             + q(:,:,3) .* (1 - wx) .* wy ...
             + q(:,:,4) .* wx .* wy;               
 
-targetApprox = reshape(targetApprox, width, height, size(target,3));
+targetApprox = reshape(targetApprox, height, width, size(target,3));
 igScaled = rescaleRange(abs(target - targetApprox));
 
 end

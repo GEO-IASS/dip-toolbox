@@ -1,7 +1,7 @@
-function anns = trainNetworks(areaSize, imageVis, imageTarget)
-% anns = trainNetworks(areaSize, image) function split image with boundary 
-% into squares of areaSize. For each square train neural network. Trained
-% networks are then returned ordered from left to right and top to bottom.
+function anns = trainNetworks(imageVis, imageTarget, areaSize)
+% anns = trainNetworks(imageVis, imageTarget, areaSize) function split 
+% image with boundary into squares of areaSize. For each square train one 
+% neural network. Trained networks are then returned in a matrix of cells.
 
 width = size(imageVis, 1);
 height = size(imageVis, 2);
@@ -20,7 +20,7 @@ for x = xs
     for y = ys
         subVis = imageVis(max(1,x): min(width, x + areaSize), max(1,y) : min(height, y + areaSize), :);
         subTarget = imageTarget(max(1,x): min(width, x + areaSize), max(1,y) : min(height, y + areaSize), :);
-        [net, tr] = trainAndProcess(subVis, subTarget);
+        [net, tr] = trainANN(subVis, subTarget);
         display([num2str(i), ' network ready. Performance: ', num2str(tr.best_perf)]);
         i = i + 1;
         anns{col, row}.net = net;
