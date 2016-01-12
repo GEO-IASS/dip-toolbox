@@ -3,7 +3,11 @@ function [errorClean, errorPent] = resultLoadDepth(path)
 % not specified '/Volumes/home/pgs/matlab/difference_measure/depth/'
 % is taken.
 % Function loads whole directory with computed ANN. Expected filename of
-% each file is in format 'materials-rnd-M', num2str(m), '-layers', num2str(l), '-c', num2str(c), '.mat'
+% each file is in format 'materials-rnd-M' + m + '-layers' + l + '-c' + c + '.mat'
+% - m specify materials used in phantom
+% - l defines ANN depth, each layer has 20 neurons 
+% - c distinguish between many traning cycles (same scenario)
+
 % Missing files are reported as warning message.
 
 % resolve path to matlab files

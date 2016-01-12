@@ -1,5 +1,5 @@
 function out = rescaleRange(values, mn, mx)
-% A data normalization function.
+% RESCALERANGE A data normalization function.
 %
 % out = rescaleRange(values) shifts values in range [0,1] linearily.
 %

@@ -1,26 +1,31 @@
 function [igScaled, extrapolation, net] = informationGain(visible, target, varargin)
-% [igScaled, extrapolation] = informationGain(visible, target). Neural
-% network for approximation of visible to target will be trained. By this
-% neural network extrapolation is computed. Finally, information gain is
-% computed as difference between target and extrapolation and scaled for
-% visualization.
-
-% Possible parameters are:
-% annCount = int16 of neural networks trained (best is used for output).
-% (default is 1)
-% layers = array of layers width. (default [25,25])
-% subregion = [x, y, width, heght] - only subregion will be processed.
-% (default [0, 0, size(visible,2), size(visible,1)]).
-% trainingSetSize = int32 - only number of samples is used for training.
-% (default 25k)
-% trainingSetSrc - matrix of source values for training (one column
-% correspond with one sample). Dimension must match with size(visible,3).
-% If not specified training set is selected from visible/target variables.
-% trainingSetTargets - target values for training (one column correspond
-% with one sample). Dimension must match with size(target,3). If not 
-% specified training set is selected from visible/target variables.
-% useGPU = {'yes'|'no'} Define if GPU will be used for training (default
-% 'no').
+% informationGain Computes information gain of the target for visible.
+%   [igScaled, extrapolation] = informationGain(visible, target) a 
+%     transform function for transformation of visible to target will be 
+%     trained by FF-ANN. By this neural network extrapolation is computed. 
+%     Finally, information gain is computed as difference between target 
+%     and extrapolation and scaled for visualization.
+% Possible parameters for the function are:
+%   annCount = int16 of neural networks trained (best is used for output).
+%     (default is 1)
+%   layers = array of layers width. (default [25,25])
+%     subregion = [x, y, width, heght] - only subregion will be processed.
+%     (default [0, 0, size(visible,2), size(visible,1)]).
+%   trainingSetSize = int32 - only number of samples is used for training.
+%     (default 25k)
+%   trainingSetSrc - matrix of source values for training (one column
+%     correspond with one sample). Dimension must match with 
+%     size(visible,3). If not specified training set is selected from 
+%     visible/target variables.
+%   trainingSetTargets - target values for training (one column correspond
+%     with one sample). Dimension must match with size(target,3). If not 
+%     specified training set is selected from visible/target variables.
+%   useGPU = {'yes'|'no'} Define if GPU will be used for training (default
+%     'no').
+%   Example:
+%     INFORMATIONGAIN(visible, target, 'annCount', 10, 'layers', ...
+%       [10, 10], 'trainingSetSize', 3000, 'useGPU', 'yes') 
+% See also trainNetworks, rescaleRange.
 
 width = size(visible, 2);
 height = size(visible, 1);

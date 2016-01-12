@@ -1,6 +1,17 @@
 function bestNetwork = trainNetworks(inputs, outputs, annCount, layers, trainingSetSize, useGPU)
-% bestNetwork = trainNetworks(inputs, outputs, annCount, layers, trainingSetSize,
-% useGPU)
+% TRAINNETWORKS Train several networks and return the best
+%   bestNetwork = trainNetworks(inputs, outputs, annCount, layers, ...
+%                      trainingSetSize, useGPU)
+%     inputs - input vectors
+%     outputs - output vectors
+%     annCount - number of neural networks wich will be trained
+%     layers - number of neurons in inner layer of ANN
+%     trainingSetSize - number of inputs/outputs used for training
+%       (randomly selected)
+%     useGPU - if set to 'yes' GPU is used for training
+% Function uses trainscg for training ANN and number of epochs is set to
+% 10k.
+% See also trainscg.
 
 % random shuffle before training
 rng('shuffle');

@@ -3,7 +3,11 @@ function [errorClean, errorPent] = resultLoadErrorMaterialsCount(path)
 % not specified '/Volumes/G2/data/matlab-datasets/phantomSizeVersusNNSize/'
 % is taken.
 % Function loads whole directory with computed ANN. Expected filename of
-% each file is in format output-P${PHANTOM_ID}-M12-L${LAYERS_ID}-c${CYCLE}.mat
+% each file is in format 'materials-rnd-M' + m + '-L' + l + '-c' + c + '.mat'
+% - m define number of materials used in phantom
+% - l defines ANN width (ANN has two layers of size 50*l and 10*l)
+% - c distinguish between many traning cycles (same scenario)
+
 % Loaded variable is only error matrix for one layer -> errorClean and for
 % twoLayers -> errorPent
 % Missing files are reported as warning message.
