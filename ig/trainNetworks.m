@@ -1,54 +1,42 @@
-function anns = trainNetworks(imageVis, imageTarget, areaSize)
-% anns = trainNetworks(imageVis, imageTarget, areaSize) function split 
-% image with boundary into squares of areaSize. For each square train one 
-% neural network. Trained networks are then returned in a matrix of cells.
+function bestNetwork = trainNetworks(inputs, outputs, annCount, layers, trainingSetSize, useGPU)
+% bestNetwork = trainNetworks(inputs, outputs, annCount, layers, trainingSetSize,
+% useGPU)
 
-width = size(imageVis, 1);
-height = size(imageVis, 2);
+% random shuffle before training
+rng('shuffle');
 
-xs = -areaSize/2:areaSize:width;
-ys = -areaSize/2:areaSize:height;
-
-anns = cell(size(xs,1), size(ys,1));
-gainSum = zeros(size(xs,1), size(ys,1));
-
-display([num2str(size(xs,2) * size(ys,2)), ' networks will be trained.']);
-
-i = 1;
-col = 1;
-for x = xs
-    row = 1;
-    for y = ys
-        subVis = imageVis(max(1,x): min(width, x + areaSize), max(1,y) : min(height, y + areaSize), :);
-        subTarget = imageTarget(max(1,x): min(width, x + areaSize), max(1,y) : min(height, y + areaSize), :);
-        [net, tr, gain] = trainAndProcess(subVis, subTarget);
-        gainSum(col,row) = sum(sum(sum(gain)));
-        display(['[',num2str(col), ',', num2str(row), '] network is ready. Performance: ', num2str(tr.best_perf), ' gain: ', num2str(gainSum(col,row))]);
-        i = i + 1;
-        anns{col, row}.net = net;
-        row = row + 1;
-    end
-    col = col + 1;
+% training set size definition
+if (trainingSetSize)    
+    % select only trainingSetSize pixels
+    subset = int64(rand(trainingSetSize, 1) * (size(inputs,1) - 1)) + 1;
+    inputs = inputs(subset, :)';
+    outputs = outputs(subset, :)';
 end
 
-% ok, let's assume that some training has failed ... try to recompute worst
-% results
-for i=1:size(xs,2) * size(ys,2)
-    maxValue = max(gainSum(:));
-    [x, y] = find(gainSum == maxValue);
-    display(['[',num2str(x), ',', num2str(y), '] network need to be recomputed.']);
+bestGain = Inf;
+
+% recompute network several times
+for i=1:annCount    
+            
+    net = feedforwardnet(layers, 'trainscg');
+    net = configure(net, 'inputs', inputs);
+    net = configure(net, 'outputs', outputs);
+    net.trainParam.epochs = 10000;
+    tic
+    [net, tr] = train(net, inputs, outputs, 'useGPU', useGPU);
+    time = toc / tr.num_epochs;
+    display([num2str(time), 's time per epoch. Epochs: ', num2str(tr.num_epochs)]);
     
-    subVis = imageVis(max(1,x): min(width, x + areaSize), max(1,y) : min(height, y + areaSize), :);
-    subTarget = imageTarget(max(1,x): min(width, x + areaSize), max(1,y) : min(height, y + areaSize), :);
-    [net, tr, gain] = trainAndProcess(subVis, subTarget);
-    newGainSum = sum(sum(sum(gain)));
-    if (newGainSum < gainSum(x,y))
-        display(['Performance: ', num2str(tr.best_perf), ' gain: ', num2str(newGainSum)]);
-        gainSum(x,y) = newGainSum;
-        anns{x, y}.net = net;
-    else
-        display(['New network is not better. Current gain: ', num2str(gainSum(x,y)), ' new gain: ', num2str(newGainSum)]);
-    end
+    gain = abs(outputs - net(inputs)) / (size(outputs, 1) * size(outputs, 2));    
     
+    maxValue = max(gain(:));
+    display(['Performance: ', num2str(tr.best_perf), ' gain: ', num2str(maxValue)]);
+    
+    if (maxValue < bestGain)
+        display('Network saved as best result.');
+        bestGain = maxValue;
+        bestNetwork = net;
+    end      
 end
+
 end
