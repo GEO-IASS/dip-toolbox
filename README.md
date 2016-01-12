@@ -3,5 +3,13 @@ Algorithms for digital image processing - MATLAB codes
 
 This toolbox is created during my phd studies, each folder contains an algorithm for digital image processing which was (or will be) published.
 
-First release contains very simple algorithms for fastening of debugging of algorithms for image enhancement
-Following release will contain algorithm for modality information gain serpartion (branch ig).
+## Root folder
+Contains very simple algorithms for fastening of debugging of algorithms for image enhancement.
+* rescaleRange - shifts values (of any dimensional matrix) into range [0, 1].
+* visualizeDifference - Algorithm published in Digital Heritage 2013 "Image Fusion for Difference
+  Visualization in Art Analysis". Algorithm makes visualization of diff on
+  intensity image. Difference is mapped to colour. Expected values of
+  difference are [-1, 1] (but if not normalization is applied).
+
+## ig folder
+ig is a shortcut for '''Information Gain'''. Contains algorithm now in review process in Signal Processing journal (Elsevier). This algorithm enhances invisible information contained in invisible spectral subband and not contained in visible subband. In other words - takes input signal and tries to create best estimation (by using ANN) of target signal. Error of this estimation is marked as information gain of target signal (+ noise).
