@@ -1,0 +1,17 @@
+Práce s geodaty
+
+1) Načíst tiff (není problém), načíst shape (zatím nevyřešeno)
+2) Převést na double [0,1]
+	source = rescaleRange(double(src), 0.02);
+	target = rescaleRange(double(trg), 0.02);
+3) spočítat diff
+	[ig, ext] = informationGain(source, target);
+4) zobrazit pro uživatele
+	% přeškálovat pozadí (aby bylo něco vidět je potřeba zesvětlit)
+	bckg = (source(:,:,5) + ones(size(source(:,:,5))))/2;
+	% maximalizovat saturaci (bez shiftu)
+	diff = (target - ext)/max(max(max(abs(ext))));
+	% zobrazit
+	visualizeDifference(bckg, diff);
+
+hotovo
